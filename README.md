@@ -38,7 +38,7 @@ This game will feature the features listed below. These features may have some c
 ##### Camera
 * The camera follows the player from above in a top-down fixed-camera view.
 
-##### Game Controller
+##### UI
 * Before the game starts an “Are you ready? Press Space” text is shown, and the game starts when the player presses the Space key.
 * When the game is ended a “Game Over! Press R to restart” text is shown, and the game restarts when the player presses the R key.
 * The player score is shown in the top center of the screen.
