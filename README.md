@@ -23,7 +23,7 @@ This game will feature the features listed below. These features may have some c
 * When the player is hit a sound effect is played.
 * When the player is neutralized the player will get timed out.
 * When the player is killed the screen will fade away and a sound effect is played.
- 
+
 ##### Weapons
 * The weapons that are available will be of the types assault rifle, shotgun and pistol.
 
@@ -66,3 +66,4 @@ I will use the following assets from Unity Asset Store in my game:
 * [Low Poly: Free Pack](https://www.assetstore.unity3d.com/en/#!/content/58821)
 * [Mega Fantasy Props Pack](https://www.assetstore.unity3d.com/en/#!/content/87811)
 * [Unity Samples: UI](https://www.assetstore.unity3d.com/en/#!/content/25468)
+* [Create a Game (Unity 5) - YouTube tutorial](https://www.youtube.com/playlist?list=PLFt_AvWsXl0ctd4dgE1F8g3uec4zKNRV0)
