@@ -3,22 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent (typeof (Rigidbody))]
 public class PlayerController : NetworkBehaviour {
 
+	Vector3 velocity;
+	Rigidbody body;
+
+	void Start() {
+		body = GetComponent<Rigidbody> ();
+	}
+
+	public void Move(Vector3 velocity) {
+		this.velocity = velocity;
+	}
+
+	public void LookAt(Vector3 lookPoint) {
+		Vector3 highCorrectedPoint = new Vector3 (lookPoint.x, transform.position.y, lookPoint.z);
+		transform.LookAt (highCorrectedPoint);
+	}
+
+	public void FixedUpdate() {
+		if (!isLocalPlayer)
+			return;
+
+		body.MovePosition (body.position + velocity * Time.fixedDeltaTime);
+	}
+
+	/*
 	public GameObject bulletPrefab;
 	public Transform bulletSpawn;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
 	void Update() {
 
-		if (!isLocalPlayer) {
+		if (!isLocalPlayer)
 			return;
-		}
+		
 		var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
 		var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
 
@@ -44,6 +63,7 @@ public class PlayerController : NetworkBehaviour {
 		// Destroy
 		Destroy(bullet, 2);
 	}
+	*/
 
 	public override void OnStartLocalPlayer() {
 		GetComponent<MeshRenderer> ().material.color = Color.blue;
