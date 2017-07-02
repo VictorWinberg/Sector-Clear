@@ -10,10 +10,10 @@ public class EnemySpawner : NetworkBehaviour {
 
 	public override void OnStartServer () {
 		for (int i = 0; i < numberOfEnemies; i++) {
-			Vector3 spawnPos = new Vector3 (Random.Range (-8.0f, 8.0f), 0, Random.Range (-8.0f, 8.0f));
+			Vector3 spawnPos = new Vector3 (Random.Range (-4.0f, 4.0f), 1, Random.Range (-4.0f, 4.0f));
 			Quaternion spawnRot = Quaternion.Euler (0, Random.Range (0.0f, 180.0f), 0);
 
-			GameObject enemy = (GameObject)Instantiate (enemyPrefab, spawnPos, spawnRot);
+			GameObject enemy = Instantiate (enemyPrefab, spawnPos, spawnRot) as GameObject;
 			NetworkServer.Spawn (enemy);
 		}
 	}
