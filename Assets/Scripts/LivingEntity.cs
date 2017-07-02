@@ -1,41 +1,54 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class Health : NetworkBehaviour {
+public class LivingEntity : NetworkBehaviour, IDamageable {
 
-	public const int maxHealth = 100;
+	public const int startHealth = 100;
 	[SyncVar (hook= "OnChangeHealth")]
-	public int currentHealth = maxHealth;
+	public int health;
+	protected bool dead;
+
 	public RectTransform healthbar;
 	public bool destroyOnDeath;
 	private NetworkStartPosition[] spawnPoints;
 
-	void Start() {
+	public event System.Action OnDeath;
+
+	protected virtual void Start() {
+		health = startHealth;
 		if (isLocalPlayer) {
 			spawnPoints = FindObjectsOfType<NetworkStartPosition> ();
 		}
 	}
 
-	[Client]
-	public void TakeDamage(int amount) {
-		currentHealth -= amount;
+	public void TakeHit (int damage, RaycastHit hit){
+		if (!isServer)
+			return;
 
-		if (currentHealth <= 0) {
+		health -= damage;
+
+		if (health <= 0 && !dead) {
 			if (destroyOnDeath) {
-				Destroy (gameObject);
+				Die ();
 			} else {
-				currentHealth = maxHealth;
+				health = startHealth;
 				RpcRespawn ();
 			}
-
 		}
 	}
 
 	void OnChangeHealth(int health) {
 		healthbar.sizeDelta = new Vector2 (health * 2, healthbar.sizeDelta.y);
+	}
+
+	protected void Die (){
+		dead = true;
+		if (OnDeath != null) {
+			OnDeath();
+		}
+		Destroy (gameObject);
 	}
 
 	[ClientRpc]

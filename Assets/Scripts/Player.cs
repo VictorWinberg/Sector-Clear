@@ -5,18 +5,19 @@ using UnityEngine.Networking;
 
 [RequireComponent (typeof (PlayerController))]
 [RequireComponent (typeof (GunController))]
-public class Player : NetworkBehaviour {
+public class Player : LivingEntity {
 
 	public float moveSpeed = 5;
 
-	Camera viewCamera;
+	Camera cam;
 	PlayerController controller;
 	GunController gunController;
 
-	void Start () {
+	protected override void Start () {
+		base.Start ();
 		controller = GetComponent<PlayerController> ();
 		gunController = GetComponent<GunController> ();
-		viewCamera = Camera.main;
+		cam = Camera.main;
 	}
 	
 	void Update () {
@@ -32,7 +33,7 @@ public class Player : NetworkBehaviour {
 		controller.Move (moveVelocity);
 
 		// Look input
-		Ray ray = viewCamera.ScreenPointToRay (Input.mousePosition);
+		Ray ray = cam.ScreenPointToRay (Input.mousePosition);
 		Plane groundPlane = new Plane (Vector3.up, Vector3.zero);
 		float rayDistande;
 
