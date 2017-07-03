@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class LivingEntity : NetworkBehaviour, IDamageable {
 
-	public const int startHealth = 100;
+	public const int startingHealth = 100;
 	[SyncVar (hook= "OnChangeHealth")]
 	public int health;
 	protected bool dead;
@@ -17,13 +17,20 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 	public event System.Action OnDeath;
 
 	protected virtual void Start() {
-		health = startHealth;
+		health = startingHealth;
 		if (isLocalPlayer) {
 			spawnPoints = FindObjectsOfType<NetworkStartPosition> ();
 		}
 	}
 
-	public void TakeHit (int damage, RaycastHit hit){
+	public void TakeHit (int damage, RaycastHit hit) {
+		if (!isServer)
+			return;
+
+		TakeDamage(damage);
+	}
+
+	public void TakeDamage (int damage) {
 		if (!isServer)
 			return;
 
@@ -33,7 +40,7 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 			if (destroyOnDeath) {
 				Die ();
 			} else {
-				health = startHealth;
+				health = startingHealth;
 				RpcRespawn ();
 			}
 		}

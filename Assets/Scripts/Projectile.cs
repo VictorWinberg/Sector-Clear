@@ -14,10 +14,10 @@ public class Projectile : MonoBehaviour {
 
 	void Update () {
 		// Movement
-		transform.Translate (Vector3.forward * Time.deltaTime * speed);
+		float moveDistance = speed * Time.deltaTime;
+		transform.Translate (Vector3.forward * moveDistance);
 
 		// Collision Detection
-		float moveDistance = speed * Time.deltaTime;
 		CheckCollision (moveDistance);
 	}
 
