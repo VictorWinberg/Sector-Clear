@@ -1,4 +1,7 @@
 # Sector-Clear
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/df06bdca16ce4e24ab024fc3dc927b89)](https://www.codacy.com/app/dat14vwi/Sector-Clear?utm_source=github.com&utm_medium=referral&utm_content=VictorWinberg/Sector-Clear&utm_campaign=badger)
+
 *Course: 1DV437 Introduction to Game Programming*
 ## Game Description
 You play as a soldier in an elite strike unit. The earth is at war unlike any war we've seen before. Sector clear is a program where soldiers compete against each other to improve and develop new combat skills. Sectors contains enemies spawned at random. You fight a variety of enemies and other soldiers with your weapons at your disposal.
