@@ -14,9 +14,9 @@ public class Enemy : LivingEntity {
 
 	Color originalColour;
 
-	float attackDistanceThreshold = .5f;
-	float timeBetweenAttacks = 1;
-	int damage = 10;
+	private float attackDistanceThreshold = .5f;
+	private float timeBetweenAttacks = 1;
+	private int damage = 10;
 
 	float nextAttackTime, myCollisionRadius, targetCollisionRadius;
 
@@ -38,8 +38,9 @@ public class Enemy : LivingEntity {
 	}
 
 	void Update () {
-		if (!isServer)
+		if (!isServer) {
 			return;
+		}
 		
 		if (hasTarget) {
 			if (Time.time > nextAttackTime) {

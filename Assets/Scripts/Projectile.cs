@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-	public Player player;
+	private Player player;
+	public Player Player {
+		get { return this.player; }
+		set { this.player = value; }
+	}
 
-	public LayerMask collisionMask;
-	float speed = 10;
-	int damage = 10;
+	[SerializeField]
+	private LayerMask collisionMask;
+	[SerializeField]
+	private float speed = 10;
+	[SerializeField]
+	private int damage = 10;
 
 	public void SetSpeed(float speed) {
 		this.speed = speed;

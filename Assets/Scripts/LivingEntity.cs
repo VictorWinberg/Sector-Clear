@@ -5,13 +5,15 @@ using UnityEngine.Networking;
 
 public class LivingEntity : NetworkBehaviour, IDamageable {
 
-	public const int startingHealth = 100;
+	public static int startingHealth { get { return 100; } }
 	[SyncVar (hook= "OnChangeHealth")]
-	public int health;
+	protected int health;
 	protected bool dead;
 
-	public RectTransform healthbar;
-	public bool destroyOnDeath;
+	[SerializeField]
+	private RectTransform healthbar;
+	[SerializeField]
+	private bool destroyOnDeath;
 	private NetworkStartPosition[] spawnPoints;
 
 	public event System.Action OnDeath;
@@ -47,8 +49,9 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 			} else {
 				health = startingHealth;
 
-				if(isLocalPlayer)
+				if (isLocalPlayer) {
 					CmdRespawn ();
+				}
 			}
 		}
 	}

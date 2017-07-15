@@ -22,7 +22,7 @@ public class GunController : NetworkBehaviour {
 
 		gun = Instantiate (newGun, weaponHold.position, weaponHold.rotation) as Gun;
 		gun.transform.parent = weaponHold;
-		gun.player = GetComponent<Player>();
+		gun.Player = GetComponent<Player>();
 	}
 
 	public void Shoot() {
