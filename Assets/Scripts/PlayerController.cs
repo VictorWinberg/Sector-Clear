@@ -29,42 +29,6 @@ public class PlayerController : NetworkBehaviour {
 		body.MovePosition (body.position + velocity * Time.fixedDeltaTime);
 	}
 
-	/*
-	public GameObject bulletPrefab;
-	public Transform bulletSpawn;
-
-	void Update() {
-
-		if (!isLocalPlayer)
-			return;
-		
-		var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-		var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
-
-		transform.Rotate(0, x, 0);
-		transform.Translate(0, 0, z);
-
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			CmdFire ();
-		}
-	}
-
-	[Command]
-	void CmdFire() {
-		// Spawn bullet
-		GameObject bullet = (GameObject)Instantiate (bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-
-		// Add velocity
-		bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6.0f;
-
-		// Spawn bullets on clients
-		NetworkServer.Spawn(bullet);
-
-		// Destroy
-		Destroy(bullet, 2);
-	}
-	*/
-
 	public override void OnStartLocalPlayer() {
 		GetComponent<MeshRenderer> ().material.color = Color.blue;
 	}

@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour {
 
+	private Player player;
+	public Player Player {
+		get { return this.player; }
+		set { this.player = value; }
+	}
+
 	public Transform muzzle;
 	public Projectile projectile;
 	public float msBetweenShots = 100;
@@ -17,6 +23,7 @@ public class Gun : MonoBehaviour {
 
 			Projectile newProjectile = Instantiate (projectile, muzzle.position, muzzle.rotation) as Projectile;
 			newProjectile.SetSpeed (muzzleVelocity);
+			newProjectile.Player = player;
 			Destroy(newProjectile.gameObject, 2);
 		}
 	}

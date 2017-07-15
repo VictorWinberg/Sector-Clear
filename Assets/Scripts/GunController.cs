@@ -7,7 +7,7 @@ public class GunController : NetworkBehaviour {
 
 	public Transform weaponHold;
 	public Gun startingGun;
-	Gun equippedGun;
+	private Gun gun;
 
 	void Start() {
 		if (startingGun != null) {
@@ -15,24 +15,30 @@ public class GunController : NetworkBehaviour {
 		}
 	}
 
-	void EquipGun(Gun gunToEquip) {
-		if (equippedGun != null) {
-			Destroy (equippedGun.gameObject);
+	void EquipGun(Gun newGun) {
+		if (gun != null) {
+			Destroy (gun);
 		}
 
-		equippedGun = Instantiate (gunToEquip, weaponHold.position, weaponHold.rotation) as Gun;
-		equippedGun.transform.parent = weaponHold;
+		gun = Instantiate (newGun, weaponHold.position, weaponHold.rotation) as Gun;
+		gun.transform.parent = weaponHold;
+		gun.Player = GetComponent<Player>();
+	}
+
+	public void Shoot() {
+		if (gun != null) {
+			gun.Shoot ();
+			CmdShoot ();
+		}
 	}
 
 	[Command]
-	public void CmdShoot() {
-		if (equippedGun != null) {
-			RpcShoot ();
-		}
+	void CmdShoot() {
+		RpcShoot ();
 	}
 
 	[ClientRpc]
 	public void RpcShoot() {
-		equippedGun.Shoot ();
+		gun.Shoot ();
 	}
 }
