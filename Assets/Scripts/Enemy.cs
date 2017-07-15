@@ -70,7 +70,7 @@ public class Enemy : LivingEntity {
 
 			if(percent >= 0.5f && !hasAppliedDamage) {
 				hasAppliedDamage = true;
-				targetEntity.TakeDamage(damage);
+				DealDamage(damage, targetEntity.gameObject);
 			}
 			percent += Time.deltaTime * attackSpeed;
 			float interpolation = (-Mathf.Pow(percent,2) + percent) * 4;

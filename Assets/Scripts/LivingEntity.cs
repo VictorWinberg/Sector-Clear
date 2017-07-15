@@ -23,17 +23,22 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 		}
 	}
 
-	public void TakeHit (int damage, RaycastHit hit) {
-		if (!isServer)
-			return;
-
-		TakeDamage(damage);
+	public void DealDamage(int damage, GameObject hit) {
+		CmdDealDamage (damage, hit.GetComponent<NetworkIdentity> ());
 	}
 
-	public void TakeDamage (int damage) {
-		if (!isServer)
-			return;
+	[Command]
+	void CmdDealDamage(int damage, NetworkIdentity target) {
+		RpcDealDamage(damage, target);
+	}
 
+	[ClientRpc]
+	void RpcDealDamage(int damage, NetworkIdentity target) {
+		LivingEntity entity = target.gameObject.GetComponent<LivingEntity> ();
+		entity.TakeDamage (damage);
+	}
+
+	public void TakeDamage(int damage) {
 		health -= damage;
 
 		if (health <= 0 && !dead) {
@@ -41,7 +46,9 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 				Die ();
 			} else {
 				health = startingHealth;
-				RpcRespawn ();
+
+				if(isLocalPlayer)
+					CmdRespawn ();
 			}
 		}
 	}
@@ -56,6 +63,11 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 			OnDeath();
 		}
 		Destroy (gameObject);
+	}
+
+	[Command]
+	void CmdRespawn() {
+		RpcRespawn ();
 	}
 
 	[ClientRpc]

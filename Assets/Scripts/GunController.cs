@@ -22,13 +22,19 @@ public class GunController : NetworkBehaviour {
 
 		gun = Instantiate (newGun, weaponHold.position, weaponHold.rotation) as Gun;
 		gun.transform.parent = weaponHold;
+		gun.player = GetComponent<Player>();
+	}
+
+	public void Shoot() {
+		if (gun != null) {
+			gun.Shoot ();
+			CmdShoot ();
+		}
 	}
 
 	[Command]
-	public void CmdShoot() {
-		if (gun != null) {
-			RpcShoot ();
-		}
+	void CmdShoot() {
+		RpcShoot ();
 	}
 
 	[ClientRpc]
