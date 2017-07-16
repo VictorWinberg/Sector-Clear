@@ -13,8 +13,6 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 
 	[SerializeField]
 	private RectTransform healthbar;
-	[SerializeField]
-	private bool destroyOnDeath;
 	private NetworkStartPosition[] spawnPoints;
 
 	public event System.Action OnDeath;
@@ -45,33 +43,22 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 		health -= damage;
 
 		if (health <= 0 && !dead) {
-			if (destroyOnDeath) {
-				Die ();
-			} else {
-				health = startingHealth;
-
-				if (isLocalPlayer) {
-					CmdRespawn ();
-				}
-			}
+			Die ();
 		}
 	}
 
 	void OnChangeHealth(int health) {
-		healthbar.sizeDelta = new Vector2 (health * 2, healthbar.sizeDelta.y);
+		healthbar.sizeDelta = new Vector2 (200 * health / startingHealth, healthbar.sizeDelta.y);
 	}
 
-	[ContextMenu("Self Destruct")]
-	protected void Die (){
-		dead = true;
+	protected virtual void Die () {
 		if (OnDeath != null) {
 			OnDeath();
 		}
-		Destroy (gameObject);
 	}
 
 	[Command]
-	void CmdRespawn() {
+	protected void CmdRespawn() {
 		RpcRespawn ();
 	}
 

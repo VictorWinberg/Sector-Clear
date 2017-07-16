@@ -87,4 +87,13 @@ public class Player : LivingEntity {
 			gunController.Reload();
 		}
 	}
+
+	protected override void Die() {
+		base.Die ();
+		health = startingHealth;
+
+		if (isLocalPlayer) {
+			CmdRespawn ();
+		}
+	}
 }
