@@ -53,7 +53,15 @@ public class FieldOfView : MonoBehaviour {
 			if (Vector3.Angle (transform.forward, directionToTarget) < viewAngle / 2) {
 				float distanceToTarget = Vector3.Distance (transform.position, target.position);
 
-				Vector3 directionToTargetWithMargin = (target.position + target.GetComponent<NavMeshAgent>().desiredVelocity.normalized * 1.5f - transform.position).normalized;
+				Vector3 velocity = Vector3.zero;
+				if (target.GetComponent<NavMeshAgent> () != null) {
+					velocity = target.GetComponent<NavMeshAgent> ().desiredVelocity.normalized;
+				} else if(target.GetComponent<Rigidbody>() != null) {
+					velocity = target.GetComponent<Rigidbody>().velocity.normalized;
+				}
+
+				Vector3 directionToTargetWithMargin = (target.position + velocity * 1.5f - transform.position).normalized;
+
 				if(!Physics.Raycast(transform.position, directionToTargetWithMargin, distanceToTarget, obstacleMask) || !Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstacleMask)) {
 					visibleTargets.Add (target);
 					target.GetComponent<Renderer> ().enabled = true;
