@@ -5,7 +5,8 @@ using UnityEngine.Networking;
 
 public class LivingEntity : NetworkBehaviour, IDamageable {
 
-	public static int startingHealth { get { return 100; } }
+	[SerializeField]
+	private int startingHealth = 100;
 	[SyncVar (hook= "OnChangeHealth")]
 	protected int health;
 	protected bool dead;
@@ -44,28 +45,29 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 		health -= damage;
 
 		if (health <= 0 && !dead) {
-			if (destroyOnDeath) {
-				Die ();
-			} else {
-				health = startingHealth;
-
-				if (isLocalPlayer) {
-					CmdRespawn ();
-				}
-			}
+			Die ();
 		}
 	}
 
 	void OnChangeHealth(int health) {
-		healthbar.sizeDelta = new Vector2 (health * 2, healthbar.sizeDelta.y);
+		healthbar.sizeDelta = new Vector2 (200 * health / startingHealth, healthbar.sizeDelta.y);
 	}
 
-	protected void Die (){
-		dead = true;
+	protected void Die () {
 		if (OnDeath != null) {
 			OnDeath();
 		}
-		Destroy (gameObject);
+
+		if (destroyOnDeath) {
+			dead = true;
+			Destroy (gameObject);
+		} else {
+			health = startingHealth;
+
+			if (isLocalPlayer) {
+				CmdRespawn ();
+			}
+		}
 	}
 
 	[Command]

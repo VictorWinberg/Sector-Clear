@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 533c418ec7b5fae40a2aa3fdd3f7cdf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingHealth: 100
   healthbar: {fileID: 224415029073977782}
   destroyOnDeath: 0
   moveSpeed: 5
