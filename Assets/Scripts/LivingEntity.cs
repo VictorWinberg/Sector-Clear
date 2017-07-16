@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class LivingEntity : NetworkBehaviour, IDamageable {
@@ -39,7 +39,7 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 		entity.TakeDamage (damage);
 	}
 
-	public void TakeDamage(int damage) {
+	public virtual void TakeDamage(int damage) {
 		health -= damage;
 
 		if (health <= 0 && !dead) {

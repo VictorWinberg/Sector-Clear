@@ -123,7 +123,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 468430}
-  - component: {fileID: 114058407199929962}
+  - component: {fileID: 11475382}
+  - component: {fileID: 11418560}
   m_Layer: 0
   m_Name: Gun 02
   m_TagString: Untagged
@@ -403,7 +404,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 76ff537c8e1a84345868e6aeee938ab3, type: 2}
+  - {fileID: 2100000, guid: 6e1d36c4bbd37d54f9ea183e4f5fd656, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -435,7 +436,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 76ff537c8e1a84345868e6aeee938ab3, type: 2}
+  - {fileID: 2100000, guid: 6e1d36c4bbd37d54f9ea183e4f5fd656, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -467,7 +468,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 82096aab38f01cb40a1cbf8629a810ba, type: 2}
+  - {fileID: 2100000, guid: e42ca8c01ef624377b39d660198f2650, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -499,7 +500,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 76ff537c8e1a84345868e6aeee938ab3, type: 2}
+  - {fileID: 2100000, guid: e42ca8c01ef624377b39d660198f2650, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -531,7 +532,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 82096aab38f01cb40a1cbf8629a810ba, type: 2}
+  - {fileID: 2100000, guid: e42ca8c01ef624377b39d660198f2650, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -621,6 +622,52 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &11418560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7b886279e5577e45a445de42f27a7a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holder: {fileID: 180110}
+  sprites:
+  - {fileID: 21300000, guid: 4e3eff57466d24495841df46135c6195, type: 3}
+  - {fileID: 21300002, guid: 4e3eff57466d24495841df46135c6195, type: 3}
+  - {fileID: 21300004, guid: 4e3eff57466d24495841df46135c6195, type: 3}
+  - {fileID: 21300006, guid: 4e3eff57466d24495841df46135c6195, type: 3}
+  spriteRenderers:
+  - {fileID: 21294998}
+  - {fileID: 21248412}
+  flashTime: 0.05
+--- !u!114 &11475382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caabc36ed33b147c9a2734c6c7d7979f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireMode: 1
+  projectileSpawns:
+  - {fileID: 417700}
+  projectile: {fileID: 11497808, guid: a883f094d9687486eaef1f0ea8e4a96c, type: 2}
+  msBetweenShots: 100
+  muzzleVelocity: 25
+  burstCount: 3
+  magSize: 12
+  reloadTime: 0.3
+  kickbackMinMax: {x: 0.05, y: 0.2}
+  recoilAngleMinMax: {x: 3, y: 5}
+  recoilRecoverTime: 0.1
+  shell: {fileID: 478058, guid: 3011a0aed1601441a95e53dc7ca4e24b, type: 2}
+  shellEjection: {fileID: 463886}
 --- !u!212 &21248412
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -661,7 +708,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
 --- !u!212 &21294998
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -702,7 +749,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -755,18 +802,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 141834}
   m_IsPrefabParent: 1
---- !u!114 &114058407199929962
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 141834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb5b57f5d9d836d4d81b1025f5f9d505, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  muzzle: {fileID: 0}
-  projectile: {fileID: 11497808, guid: 1f0092ae98c406f4fab82e84b4d6d62e, type: 2}
-  msBetweenShots: 100
-  muzzleVelocity: 35

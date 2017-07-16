@@ -1,23 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System.Collections;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class GunController : NetworkBehaviour {
 
 	public Transform weaponHold;
-	public Gun startingGun;
+	public Gun[] guns;
 	private Gun gun;
 
 	void Start() {
-		if (startingGun != null) {
-			EquipGun (startingGun);
-		}
+		EquipGun (0);
 	}
 
 	void EquipGun(Gun newGun) {
 		if (gun != null) {
-			Destroy (gun);
+			Destroy (gun.gameObject);
 		}
 
 		gun = Instantiate (newGun, weaponHold.position, weaponHold.rotation) as Gun;
@@ -25,20 +22,67 @@ public class GunController : NetworkBehaviour {
 		gun.Player = GetComponent<Player>();
 	}
 
-	public void Shoot() {
-		if (gun != null) {
-			gun.Shoot ();
-			CmdShoot ();
-		}
+	public void EquipGun(int gunIndex) {
+		EquipGun (guns[gunIndex]);
 	}
 
-	[Command]
-	void CmdShoot() {
-		RpcShoot ();
+	public void OnTriggerHold () { 
+		CmdOnTriggerHold (); 
+	}
+
+	[Command] 
+	void CmdOnTriggerHold () { 
+		RpcOnTriggerHold (); 
 	}
 
 	[ClientRpc]
-	public void RpcShoot() {
-		gun.Shoot ();
+	void RpcOnTriggerHold () {
+		if (gun != null) {
+			gun.OnTriggerHold ();
+		}
+	}
+
+	public void OnTriggerRelease() {
+		CmdOnTriggerRelease ();
+	}
+
+	[Command]
+	void CmdOnTriggerRelease () {
+		RpcOnTriggerRelease ();
+	}
+
+	[ClientRpc]
+	void RpcOnTriggerRelease () {
+		if (gun != null) {
+			gun.OnTriggerRelease ();
+		}
+	}
+
+	public float GunHeight {
+		get {
+			return weaponHold.position.y;
+		}
+	}
+
+	public void Aim() {
+		CmdAim ();
+	}
+
+	[Command]
+	void CmdAim() {
+		RpcAim ();
+	}
+
+	[ClientRpc]
+	void RpcAim() {
+		if (gun != null) {
+			gun.Aim ();
+		}
+	}
+
+	public void Reload() {
+		if (gun != null) {
+			gun.Reload ();
+		}
 	}
 }

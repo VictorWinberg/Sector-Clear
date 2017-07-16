@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class Projectile : MonoBehaviour {
 
@@ -12,10 +11,24 @@ public class Projectile : MonoBehaviour {
 
 	[SerializeField]
 	private LayerMask collisionMask;
+	public Color trailColor;
 	[SerializeField]
 	private float speed = 10;
 	[SerializeField]
 	private int damage = 10;
+
+	float lifetime = 3, skinWidth = .1f;
+
+	void Start() {
+		Destroy (gameObject, lifetime);
+
+		Collider[] initialCollision = Physics.OverlapSphere (transform.position, .1f, collisionMask);
+		if (initialCollision.Length > 0) {
+			OnHitObject(initialCollision[0], transform.position);
+		}
+
+		GetComponent<TrailRenderer> ().material.SetColor ("_TintColor", trailColor);
+	}
 
 	public void SetSpeed(float speed) {
 		this.speed = speed;
@@ -27,23 +40,24 @@ public class Projectile : MonoBehaviour {
 		transform.Translate (Vector3.forward * moveDistance);
 
 		// Collision Detection
-		CheckCollision (moveDistance);
+		CheckCollisions (moveDistance);
 	}
 
-	void CheckCollision (float moveDistance){
+	void CheckCollisions (float moveDistance) {
 		Ray ray = new Ray (transform.position, transform.forward);
 		RaycastHit hit;
 
-		if(Physics.Raycast(ray, out hit, moveDistance, collisionMask, QueryTriggerInteraction.Collide)) {
-			OnHitObject(hit);
+		if(Physics.Raycast(ray, out hit, moveDistance + skinWidth, collisionMask, QueryTriggerInteraction.Collide)) {
+			OnHitObject(hit.collider, hit.point);
 		}
 	}
 
-	void OnHitObject (RaycastHit hit){
-		IDamageable damageableObject = hit.collider.GetComponent<IDamageable> ();
+	void OnHitObject (Collider c, Vector3 hitPoint){
+		IDamageable damageableObject = c.GetComponent<IDamageable> ();
 
 		if (damageableObject != null && player.isLocalPlayer) {
-			player.DealDamage(damage, hit.collider.gameObject);
+			player.DealDamage(damage, c.gameObject);
+			// damageableObject.TakeHit(damage, hitPoint, transform.forward);
 		}
 		GameObject.Destroy (gameObject);
 	}

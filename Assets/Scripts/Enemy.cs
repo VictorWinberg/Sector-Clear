@@ -1,14 +1,17 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Networking;
 using System.Collections;
 
-[RequireComponent (typeof (UnityEngine.AI.NavMeshAgent))]
+[RequireComponent (typeof (NavMeshAgent))]
 public class Enemy : LivingEntity {
 
 	public enum State {Idle, Chasing, Attacking};
 	State currentState;
 
-	UnityEngine.AI.NavMeshAgent pathfinder;
+	public ParticleSystem deathEffect;
+
+	NavMeshAgent pathfinder;
 	Transform target;
 	LivingEntity targetEntity;
 	Material skinMaterial;
@@ -34,6 +37,23 @@ public class Enemy : LivingEntity {
 		}
 	}
 
+	public void SetCharacteristics (float moveSpeed, int damage, int health, Color skinColor) {
+		pathfinder.speed = moveSpeed;
+
+		if (hasTarget) this.damage = damage;
+		startingHealth = health;
+
+		skinMaterial = GetComponent<Renderer> ().sharedMaterial;
+		skinMaterial.color = skinColor;
+		originalColour = skinMaterial.color;
+	}
+
+	public override void TakeDamage(int damage) {
+		if (damage <= health)
+			Destroy(Instantiate(deathEffect.gameObject, transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up)) as GameObject, deathEffect.main.startLifetimeMultiplier);
+		base.TakeDamage (damage);
+	}
+
 	void OnTargetDeath() {
 		targetEntity.OnDeath -= OnTargetDeath;
 		hasTarget = false;
@@ -45,7 +65,7 @@ public class Enemy : LivingEntity {
 		if (!isServer) {
 			return;
 		}
-		
+
 		if (hasTarget) {
 			if (Time.time > nextAttackTime) {
 				float sqrDstToTarget = (target.position - transform.position).sqrMagnitude;
