@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,18 +9,36 @@ public class Player : LivingEntity {
 	public float moveSpeed = 5;
 
 	Camera cam;
+
+	public Crosshairs crosshairs;
 	PlayerController controller;
 	GunController gunController;
+
+	public bool aimbot = false;
 
 	protected override void Start () {
 		base.Start ();
 		controller = GetComponent<PlayerController> ();
 		gunController = GetComponent<GunController> ();
 		cam = Camera.main;
+		//FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
 	}
-	
+
+	void OnNewWave(int waveNumber) {
+		health = startingHealth;
+		gunController.EquipGun (waveNumber - 1);
+	}
+
+	void LookAtTarget (Vector3 point) {
+		controller.LookAt (point);
+		crosshairs.transform.position = point;
+		if ((new Vector2 (point.x, point.z) - new Vector2 (transform.position.x, transform.position.z)).sqrMagnitude > 1) {
+			gunController.Aim ();
+		}
+	}
+
 	void Update () {
-		if (!isLocalPlayer) 
+		if (!isLocalPlayer)
 			return;
 
 		// Movement input
@@ -34,17 +51,40 @@ public class Player : LivingEntity {
 
 		// Look input
 		Ray ray = cam.ScreenPointToRay (Input.mousePosition);
-		Plane groundPlane = new Plane (Vector3.up, Vector3.zero);
-		float rayDistande;
-
-		if (groundPlane.Raycast (ray, out rayDistande)) {
-			Vector3 point = ray.GetPoint (rayDistande);
-			controller.LookAt (point);
+		Plane groundPlane = new Plane (Vector3.up, Vector3.up * gunController.GunHeight);
+		float rayDistance;
+		Vector3 point = Vector3.zero;
+		if (groundPlane.Raycast (ray, out rayDistance)) {
+			point = ray.GetPoint (rayDistance);
+			//Debug.DrawLine(ray.origin,point,Color.red);
+			crosshairs.DetectTargets (ray);
+			LookAtTarget (point);
 		}
 
 		// Weapon input
-		if (Input.GetMouseButton (0) || Input.GetKeyDown(KeyCode.Space)) {
-			gunController.Shoot ();
+		if (Input.GetMouseButton(0)) {
+			if (aimbot) {
+				// Look input
+				int enemyLayer = 1 << LayerMask.NameToLayer ("Enemy");
+				float minDist = Mathf.Infinity;
+				Vector3 closest = point;
+				foreach (Collider hit in Physics.OverlapSphere (transform.position, 10f, enemyLayer)) {
+					float dist = Vector3.Distance (hit.transform.position, transform.position);
+					if (dist < minDist) {
+						minDist = dist;
+						closest = hit.transform.position;
+					}
+				}
+				crosshairs.DetectTargets (!point.Equals (closest));
+				LookAtTarget (closest);
+			}
+			gunController.OnTriggerHold();
+		}
+		if (Input.GetMouseButtonUp(0)) {
+			gunController.OnTriggerRelease();
+		}
+		if (Input.GetKeyDown (KeyCode.R)) {
+			gunController.Reload();
 		}
 	}
 }

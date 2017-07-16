@@ -174,8 +174,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionMask:
     serializedVersion: 2
-    m_Bits: 3072
+    m_Bits: 3584
   trailColor: {r: 1, g: 1, b: 1, a: 0.7058824}
+  speed: 10
+  damage: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -86,7 +86,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e53c2571c07d490cb70d8754041fcfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 2
+  startingHealth: 100
+  healthbar: {fileID: 224539785872489698}
+  destroyOnDeath: 1
   deathEffect: {fileID: 19878482, guid: 9ede256124f5842f1afbff9d9af29df7, type: 2}
 --- !u!136 &13600044
 CapsuleCollider:
@@ -231,7 +233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4914935053533368
 Transform:
   m_ObjectHideFlags: 1

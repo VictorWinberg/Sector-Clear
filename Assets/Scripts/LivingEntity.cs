@@ -1,11 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class LivingEntity : NetworkBehaviour, IDamageable {
 
-	public static int startingHealth { get { return 100; } }
+	[SerializeField]
+	protected int startingHealth = 100;
 	[SyncVar (hook= "OnChangeHealth")]
 	protected int health;
 	protected bool dead;
@@ -40,7 +41,7 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 		entity.TakeDamage (damage);
 	}
 
-	public void TakeDamage(int damage) {
+	public virtual void TakeDamage(int damage) {
 		health -= damage;
 
 		if (health <= 0 && !dead) {
@@ -60,6 +61,7 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 		healthbar.sizeDelta = new Vector2 (health * 2, healthbar.sizeDelta.y);
 	}
 
+	[ContextMenu("Self Destruct")]
 	protected void Die (){
 		dead = true;
 		if (OnDeath != null) {

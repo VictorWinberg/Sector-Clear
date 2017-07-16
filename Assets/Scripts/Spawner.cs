@@ -129,7 +129,7 @@ public class Spawner : MonoBehaviour {
 
 		public float moveSpeed;
 		public int damage;
-		public float health;
+		public int health;
 		public Color skinColor;
 	}
 }
