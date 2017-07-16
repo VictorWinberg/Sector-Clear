@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Other/Multiplayer Tutorial.unity
-    guid: ab3d2d03dafd85741a5104535ca9952c
+    path: Assets/Scenes/Levels/Game.unity
+    guid: 449cd167e56c347d4b44039334d36233
