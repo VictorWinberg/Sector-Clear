@@ -35,6 +35,7 @@ public class Enemy : LivingEntity {
 	}
 
 	void OnTargetDeath() {
+		targetEntity.OnDeath -= OnTargetDeath;
 		hasTarget = false;
 		currentState = State.Idle;
 		StartCoroutine (FindTarget ());
@@ -112,14 +113,17 @@ public class Enemy : LivingEntity {
 
 	[ClientRpc]
 	void RpcSetDestination(Vector3 position) {
-		pathfinder.SetDestination (position);
+		if (pathfinder.enabled) {
+			pathfinder.SetDestination (position);
+		}
 	}
 
 	IEnumerator FindTarget() {
 		float refreshRate = 1.0f;
 
 		while (!hasTarget) {
-			if (GameObject.FindGameObjectWithTag ("Player") != null) {
+			GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+			if (players != null && players.Length > 0) {
 				currentState = State.Chasing;
 				hasTarget = true;
 
@@ -137,5 +141,14 @@ public class Enemy : LivingEntity {
 
 			yield return new WaitForSeconds(refreshRate);
 		}
+	}
+
+	protected override void Die() {
+		base.Die ();
+		dead = true;
+		if (targetEntity != null) {
+			targetEntity.OnDeath -= OnTargetDeath;
+		}
+		Destroy (gameObject);
 	}
 }

@@ -6,15 +6,13 @@ using UnityEngine.Networking;
 public class LivingEntity : NetworkBehaviour, IDamageable {
 
 	[SerializeField]
-	private int startingHealth = 100;
+	protected int startingHealth = 100;
 	[SyncVar (hook= "OnChangeHealth")]
 	protected int health;
 	protected bool dead;
 
 	[SerializeField]
 	private RectTransform healthbar;
-	[SerializeField]
-	private bool destroyOnDeath;
 	private NetworkStartPosition[] spawnPoints;
 
 	public event System.Action OnDeath;
@@ -53,25 +51,14 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 		healthbar.sizeDelta = new Vector2 (200 * health / startingHealth, healthbar.sizeDelta.y);
 	}
 
-	protected void Die () {
+	protected virtual void Die () {
 		if (OnDeath != null) {
 			OnDeath();
-		}
-
-		if (destroyOnDeath) {
-			dead = true;
-			Destroy (gameObject);
-		} else {
-			health = startingHealth;
-
-			if (isLocalPlayer) {
-				CmdRespawn ();
-			}
 		}
 	}
 
 	[Command]
-	void CmdRespawn() {
+	protected void CmdRespawn() {
 		RpcRespawn ();
 	}
 
