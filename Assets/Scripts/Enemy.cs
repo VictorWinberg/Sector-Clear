@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
 [RequireComponent (typeof (UnityEngine.AI.NavMeshAgent))]
@@ -28,10 +29,13 @@ public class Enemy : LivingEntity {
 		skinMaterial = GetComponent<Renderer> ().material;
 		originalColour = skinMaterial.color;
 
-		StartCoroutine (FindTarget ());
+		if (isServer) {
+			StartCoroutine (FindTarget ());
+		}
 	}
 
 	void OnTargetDeath() {
+		targetEntity.OnDeath -= OnTargetDeath;
 		hasTarget = false;
 		currentState = State.Idle;
 		StartCoroutine (FindTarget ());
@@ -75,7 +79,8 @@ public class Enemy : LivingEntity {
 			}
 			percent += Time.deltaTime * attackSpeed;
 			float interpolation = (-Mathf.Pow(percent,2) + percent) * 4;
-			transform.position = Vector3.Lerp(originalPosition, attackPosition, interpolation);
+
+			RpcAttack (originalPosition, attackPosition, interpolation);
 
 			yield return null;
 		}
@@ -83,6 +88,11 @@ public class Enemy : LivingEntity {
 		skinMaterial.color = originalColour;
 		currentState = State.Chasing;
 		pathfinder.enabled = true;
+	}
+
+	[ClientRpc]
+	void RpcAttack(Vector3 originalPosition, Vector3 attackPosition, float interpolation) {
+		transform.position = Vector3.Lerp(originalPosition, attackPosition, interpolation);
 	}
 
 	// UpdatePath is called once per refreshRate
@@ -94,10 +104,17 @@ public class Enemy : LivingEntity {
 				Vector3 dirToTarget = (target.position - transform.position).normalized;
 				Vector3 targetPosition = target.position - dirToTarget * (myCollisionRadius + targetCollisionRadius + attackDistanceThreshold/2);
 				if (!dead) {
-					pathfinder.SetDestination (targetPosition);
+					RpcSetDestination (targetPosition);
 				}
 			}
 			yield return new WaitForSeconds(refreshRate);
+		}
+	}
+
+	[ClientRpc]
+	void RpcSetDestination(Vector3 position) {
+		if (pathfinder.enabled) {
+			pathfinder.SetDestination (position);
 		}
 	}
 
@@ -105,7 +122,8 @@ public class Enemy : LivingEntity {
 		float refreshRate = 1.0f;
 
 		while (!hasTarget) {
-			if (GameObject.FindGameObjectWithTag ("Player") != null) {
+			GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+			if (players != null && players.Length > 0) {
 				currentState = State.Chasing;
 				hasTarget = true;
 
@@ -123,5 +141,14 @@ public class Enemy : LivingEntity {
 
 			yield return new WaitForSeconds(refreshRate);
 		}
+	}
+
+	protected override void Die() {
+		base.Die ();
+		dead = true;
+		if (targetEntity != null) {
+			targetEntity.OnDeath -= OnTargetDeath;
+		}
+		Destroy (gameObject);
 	}
 }
