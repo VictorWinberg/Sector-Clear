@@ -47,7 +47,7 @@ public class Enemy : LivingEntity {
 
 	public override void TakeDamage(int damage) {
 		if (damage <= health)
-			Destroy(Instantiate(deathEffect.gameObject, transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up)) as GameObject, deathEffect.startLifetime);
+			Destroy(Instantiate(deathEffect.gameObject, transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up)) as GameObject, deathEffect.main.startLifetimeMultiplier);
 		base.TakeDamage (damage);
 	}
 

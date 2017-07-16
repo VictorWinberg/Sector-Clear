@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameUI : MonoBehaviour {
@@ -70,6 +71,6 @@ public class GameUI : MonoBehaviour {
 
 	// UI Input
 	public void StartNewGame() {
-		Application.LoadLevel ("Scene1");
+		SceneManager.LoadScene ("Game");
 	}
 }
