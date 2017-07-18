@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
 
-public class MapGenerator : MonoBehaviour {
+public class MapGenerator : NetworkBehaviour {
 	public Map[] maps;
 	public int mapIndex;
 

@@ -21,7 +21,7 @@ public class Player : LivingEntity {
 		controller = GetComponent<PlayerController> ();
 		gunController = GetComponent<GunController> ();
 		cam = Camera.main;
-		//FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
+		FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
 	}
 
 	void OnNewWave(int waveNumber) {
@@ -56,7 +56,6 @@ public class Player : LivingEntity {
 		Vector3 point = Vector3.zero;
 		if (groundPlane.Raycast (ray, out rayDistance)) {
 			point = ray.GetPoint (rayDistance);
-			//Debug.DrawLine(ray.origin,point,Color.red);
 			crosshairs.DetectTargets (ray);
 			LookAtTarget (point);
 		}

@@ -19,23 +19,20 @@ public class Spawner : NetworkBehaviour {
 
 	MapGenerator map;
 
-	float idleTimeCheck = 2;
-	float idleThresholdDistance = 1.5f;
-	float nextIdleTimeCheck;
-	Vector3 idlePositionPrevious;
-	bool isIdle;
-
-	bool isDisabled;
-
 	public event System.Action<int> OnNewWave;
 
-	public override void OnStartServer () {
+	void Start() {
 		map = FindObjectOfType<MapGenerator> ();
+
+		if (!isServer)
+			return;
+
 		NextWave ();
+		nextSpawnTime = Time.time + currentWave.timeBetweenSpawns;
 	}
 
 	void Update () {
-		if (isDisabled || !isServer)
+		if (!isServer || currentWave == null)
 			return;
 
 		if ((enemiesRemainingToSpawn > 0 || currentWave.infinite) && Time.time > nextSpawnTime) {
@@ -60,7 +57,7 @@ public class Spawner : NetworkBehaviour {
 		float spawnDelay = 1;
 		float tileFlashSpeed = 4;
 
-		Transform spawnTile = isIdle ? map.getTileFromPosition(player.transform.position) : map.getRandomOpenTile ();
+		Transform spawnTile = map.getRandomOpenTile ();
 		Material tileMaterial = spawnTile.GetComponent<Renderer> ().material;
 		Color initialColor = map.getInitialTileColor ();
 		Color flashColor = Color.red;
@@ -73,12 +70,17 @@ public class Spawner : NetworkBehaviour {
 			spawnTimer += Time.deltaTime;
 			yield return null;
 		}
-		tileMaterial.color = initialColor;
-		Enemy spawnedEnemy = Instantiate(enemy, spawnTile.position + Vector3.up, Quaternion.identity) as Enemy;
-		spawnedEnemy.OnDeath += OnEnemyDeath;
 
-		spawnedEnemy.SetCharacteristics (currentWave.moveSpeed, currentWave.damage, currentWave.health, currentWave.skinColor);
-		NetworkServer.Spawn (spawnedEnemy.gameObject);
+		tileMaterial.color = initialColor;
+
+		if (isServer) {
+			Enemy spawnedEnemy = Instantiate (enemy, spawnTile.position + Vector3.up, Quaternion.identity) as Enemy;
+			spawnedEnemy.OnDeath += OnEnemyDeath;
+
+			spawnedEnemy.SetCharacteristics (currentWave.moveSpeed, currentWave.damage, currentWave.health, currentWave.skinColor);
+			NetworkServer.Spawn (spawnedEnemy.gameObject);
+		}
+		yield return null;
 	}
 
 	void OnEnemyDeath (){
