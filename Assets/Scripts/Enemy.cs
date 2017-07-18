@@ -33,6 +33,7 @@ public class Enemy : LivingEntity {
 	}
 
 	protected override void Start () {
+		base.Start ();
 		if (!isServer) {
 			return;
 		}

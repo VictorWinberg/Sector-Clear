@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class GameUI : MonoBehaviour {
+public class GameUI : NetworkBehaviour {
 
 	public Image fadeCanvas;
 	public GameObject gameOverUI;
@@ -13,15 +14,15 @@ public class GameUI : MonoBehaviour {
 
 	Spawner spawner;
 
-	void OnConnectedToServer () {
+	void Start() {
 		spawner = FindObjectOfType<Spawner> ();
 		spawner.OnNewWave += OnNewWave;
-		FindObjectOfType<Player> ().OnDeath += OnGameOver;
+		//FindObjectOfType<Player> ().OnDeath += OnGameOver;
 	}
 
 	void OnNewWave(int waveNumber) {
 		waveTitle.text = "- Wave " + HumanFriendlyInteger.IntegerToWritten (waveNumber) + " -";
-		string enemyCount = (spawner.waves [waveNumber - 1].infinite) ? "Infinite" : spawner.waves [waveNumber - 1].enemyCount + "";
+		string enemyCount = (spawner.waves [waveNumber].infinite) ? "Infinite" : spawner.waves [waveNumber].enemyCount + "";
 		waveEnemyCount.text = "Enemies: " + enemyCount;
 		StopCoroutine ("AnimateWaveBanner");
 		StartCoroutine ("AnimateWaveBanner");

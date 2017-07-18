@@ -497,6 +497,7 @@ MonoBehaviour:
   projectileSpawns:
   - {fileID: 450644}
   projectile: {fileID: 11497808, guid: a883f094d9687486eaef1f0ea8e4a96c, type: 2}
+  damage: 5
   msBetweenShots: 100
   muzzleVelocity: 20
   burstCount: 3

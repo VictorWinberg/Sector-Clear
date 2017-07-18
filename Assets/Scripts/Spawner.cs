@@ -99,16 +99,23 @@ public class Spawner : NetworkBehaviour {
 	}
 
 	void NextWave() {
-		currentWaveNumber++;
 		if (currentWaveNumber - 1 < waves.Length) {
-			currentWave = waves [currentWaveNumber - 1];
+			currentWave = waves [currentWaveNumber];
 
 			enemiesRemainingToSpawn = currentWave.enemyCount;
 			enemiesRemainingAlive = enemiesRemainingToSpawn;
 
-			if(OnNewWave != null) OnNewWave(currentWaveNumber);
-			ResetPlayerPosition();
+			RpcOnNewWave (currentWaveNumber);
+			currentWaveNumber++;
 		}
+	}
+
+	[ClientRpc]
+	void RpcOnNewWave(int wave) {
+		if(OnNewWave != null)
+			OnNewWave(wave);
+
+		ResetPlayerPosition();
 	}
 
 	[System.Serializable]

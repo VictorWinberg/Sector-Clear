@@ -14,6 +14,7 @@ public class Gun : MonoBehaviour {
 
 	public Transform[] projectileSpawns;
 	public Projectile projectile;
+	public int damage = 10;
 	public float msBetweenShots = 100;
 	public float muzzleVelocity = 35;
 	public int burstCount = 3;
@@ -77,6 +78,7 @@ public class Gun : MonoBehaviour {
 				nextShotTime = Time.time + msBetweenShots / 1000;
 				Projectile newProjectile = Instantiate (projectile, projectileSpawns[i].position, projectileSpawns[i].rotation) as Projectile;
 				newProjectile.SetSpeed (muzzleVelocity);
+				newProjectile.SetDamage (damage);
 				newProjectile.Player = player;
 			}
 

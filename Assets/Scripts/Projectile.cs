@@ -34,6 +34,10 @@ public class Projectile : MonoBehaviour {
 		this.speed = speed;
 	}
 
+	public void SetDamage(int damage) {
+		this.damage = damage;
+	}
+
 	void Update () {
 		// Movement
 		float moveDistance = speed * Time.deltaTime;
@@ -56,8 +60,8 @@ public class Projectile : MonoBehaviour {
 		IDamageable damageableObject = c.GetComponent<IDamageable> ();
 
 		if (damageableObject != null && player.isLocalPlayer) {
-			player.DealDamage(damage, c.gameObject);
-			// damageableObject.TakeHit(damage, hitPoint, transform.forward);
+			int hitDamage = (int)(Mathf.Round(Random.Range (damage * 0.5f, damage * 1.5f)));
+			player.DealDamage(hitDamage, c.gameObject);
 		}
 		GameObject.Destroy (gameObject);
 	}

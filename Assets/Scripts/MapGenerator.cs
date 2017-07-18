@@ -23,10 +23,12 @@ public class MapGenerator : NetworkBehaviour {
 
 	public override void OnStartClient () {
 		FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
+		Debug.Log (FindObjectOfType<Spawner> ());
 	}
 
 	void OnNewWave(int waveNumber) {
-		mapIndex = waveNumber - 1;
+		Debug.Log ("NEW MAP");
+		mapIndex = waveNumber;
 		GenerateMap ();
 	}
 
