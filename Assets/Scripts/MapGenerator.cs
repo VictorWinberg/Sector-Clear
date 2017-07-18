@@ -21,7 +21,7 @@ public class MapGenerator : NetworkBehaviour {
 
 	Map currentMap;
 
-	void Awake() {
+	public override void OnStartClient () {
 		FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
 	}
 

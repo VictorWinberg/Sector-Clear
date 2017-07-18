@@ -21,9 +21,11 @@ public class Spawner : NetworkBehaviour {
 
 	public event System.Action<int> OnNewWave;
 
-	void Start() {
+	public override void OnStartClient () {
 		map = FindObjectOfType<MapGenerator> ();
+	}
 
+	void Start() {
 		if (!isServer)
 			return;
 

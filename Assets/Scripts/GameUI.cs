@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class GameUI : MonoBehaviour {
 
@@ -13,12 +13,9 @@ public class GameUI : MonoBehaviour {
 
 	Spawner spawner;
 
-	void Awake() {
+	void OnConnectedToServer () {
 		spawner = FindObjectOfType<Spawner> ();
 		spawner.OnNewWave += OnNewWave;
-	}
-
-	void OnConnectedToServer () {
 		FindObjectOfType<Player> ().OnDeath += OnGameOver;
 	}
 
