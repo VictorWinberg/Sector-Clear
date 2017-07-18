@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.Networking;
 
-public class Spawner : MonoBehaviour {
+public class Spawner : NetworkBehaviour {
 
 	public bool developerMode;
 
@@ -28,27 +29,14 @@ public class Spawner : MonoBehaviour {
 
 	public event System.Action<int> OnNewWave;
 
-	void Start () {
-		player = FindObjectOfType<Player> ();
-
-		nextIdleTimeCheck = idleTimeCheck + Time.time;
-		idlePositionPrevious = player.transform.position;
-		player.OnDeath += OnPlayerDeath;
-
+	public override void OnStartServer () {
 		map = FindObjectOfType<MapGenerator> ();
 		NextWave ();
 	}
 
 	void Update () {
-		if (isDisabled)
+		if (isDisabled || !isServer)
 			return;
-
-		if (Time.time > nextIdleTimeCheck) {
-			nextIdleTimeCheck = idleTimeCheck + Time.time;
-
-			isIdle = (Vector3.Distance(player.transform.position, idlePositionPrevious) < idleThresholdDistance);
-			idlePositionPrevious = player.transform.position;
-		}
 
 		if ((enemiesRemainingToSpawn > 0 || currentWave.infinite) && Time.time > nextSpawnTime) {
 			enemiesRemainingToSpawn--;
@@ -90,10 +78,7 @@ public class Spawner : MonoBehaviour {
 		spawnedEnemy.OnDeath += OnEnemyDeath;
 
 		spawnedEnemy.SetCharacteristics (currentWave.moveSpeed, currentWave.damage, currentWave.health, currentWave.skinColor);
-	}
-
-	void OnPlayerDeath() {
-		isDisabled = true;
+		NetworkServer.Spawn (spawnedEnemy.gameObject);
 	}
 
 	void OnEnemyDeath (){
@@ -105,7 +90,8 @@ public class Spawner : MonoBehaviour {
 	}
 
 	void ResetPlayerPosition() {
-		player.transform.position = map.getTileFromPosition(Vector3.zero).position + Vector3.up * 3;
+		if(player != null)
+			player.transform.position = map.getTileFromPosition(Vector3.zero).position + Vector3.up * 3;
 	}
 
 	void NextWave() {

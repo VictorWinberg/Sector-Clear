@@ -18,7 +18,7 @@ public class GameUI : MonoBehaviour {
 		spawner.OnNewWave += OnNewWave;
 	}
 
-	void Start () {
+	void OnConnectedToServer () {
 		FindObjectOfType<Player> ().OnDeath += OnGameOver;
 	}
 

@@ -26,15 +26,18 @@ public class Enemy : LivingEntity {
 
 	bool hasTarget;
 
-	protected override void Start () {
-		base.Start ();
-		pathfinder = GetComponent<UnityEngine.AI.NavMeshAgent> ();
+	void Awake () {
+		pathfinder = GetComponent<NavMeshAgent> ();
 		skinMaterial = GetComponent<Renderer> ().material;
 		originalColour = skinMaterial.color;
+	}
 
-		if (isServer) {
-			StartCoroutine (FindTarget ());
+	protected override void Start () {
+		if (!isServer) {
+			return;
 		}
+
+		StartCoroutine (FindTarget ());
 	}
 
 	public void SetCharacteristics (float moveSpeed, int damage, int health, Color skinColor) {
