@@ -6,10 +6,10 @@ using UnityEngine.Networking;
 public class LivingEntity : NetworkBehaviour, IDamageable {
 
 	[SerializeField]
-	[SyncVar (hook= "OnChangeHealth")]
-	protected int startingHealth = 100;
-	[SyncVar (hook= "OnChangeHealth")]
-	protected int health;
+	[SyncVar (hook = "OnChangeHealth")]
+	public int startingHealth = 100;
+	[SyncVar (hook = "OnChangeHealth")]
+	public int health;
 	protected bool dead;
 
 	[SerializeField]

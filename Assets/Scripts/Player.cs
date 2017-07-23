@@ -1,6 +1,5 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using System.Collections;
 
 [RequireComponent (typeof (PlayerController))]
 [RequireComponent (typeof (GunController))]
@@ -8,8 +7,7 @@ public class Player : LivingEntity {
 
 	public float moveSpeed = 5;
 
-	Camera cam;
-
+	Camera viewCamera;
 	Crosshairs crosshairs;
 	PlayerController controller;
 	GunController gunController;
@@ -18,15 +16,19 @@ public class Player : LivingEntity {
 
 	protected override void Start () {
 		base.Start ();
+
 		controller = GetComponent<PlayerController> ();
 		gunController = GetComponent<GunController> ();
-		cam = Camera.main;
 		crosshairs = FindObjectOfType<Crosshairs> ();
 		crosshairs.activate ();
+		viewCamera = Camera.main;
 		FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
 	}
 
 	void OnNewWave(int waveNumber) {
+		if (waveNumber != 1)
+			startingHealth = (int)(startingHealth * 1.2f);
+
 		health = startingHealth;
 		gunController.EquipGun (waveNumber - 1);
 	}
@@ -51,8 +53,7 @@ public class Player : LivingEntity {
 		Vector3 moveVelocity = moveInput.normalized * moveSpeed;
 		controller.Move (moveVelocity);
 
-		// Look input
-		Ray ray = cam.ScreenPointToRay (Input.mousePosition);
+		Ray ray = viewCamera.ScreenPointToRay (Input.mousePosition);
 		Plane groundPlane = new Plane (Vector3.up, Vector3.up * gunController.GunHeight);
 		float rayDistance;
 		Vector3 point = Vector3.zero;
@@ -90,6 +91,7 @@ public class Player : LivingEntity {
 	}
 
 	protected override void Die() {
+		AudioManager.instance.PlaySound ("Player Death", transform.position);
 		base.Die ();
 		health = startingHealth;
 

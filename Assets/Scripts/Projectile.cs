@@ -59,7 +59,7 @@ public class Projectile : MonoBehaviour {
 	void OnHitObject (Collider c, Vector3 hitPoint){
 		IDamageable damageableObject = c.GetComponent<IDamageable> ();
 
-		if (damageableObject != null && player.isLocalPlayer) {
+		if (damageableObject != null && player != null && player.isLocalPlayer) {
 			int hitDamage = (int)(Mathf.Round(Random.Range (damage * 0.5f, damage * 1.5f)));
 			player.DealDamage(hitDamage, c.gameObject);
 		}

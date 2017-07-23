@@ -23,11 +23,9 @@ public class MapGenerator : NetworkBehaviour {
 
 	public override void OnStartClient () {
 		FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
-		Debug.Log (FindObjectOfType<Spawner> ());
 	}
 
 	void OnNewWave(int waveNumber) {
-		Debug.Log ("NEW MAP");
 		mapIndex = waveNumber;
 		GenerateMap ();
 	}
@@ -117,7 +115,32 @@ public class MapGenerator : NetworkBehaviour {
 		Transform maskBottom = Instantiate (navmeshMaskPrefab, Vector3.back * (currentMap.mapSize.y + maxMapSize.y) / 4f * tileSize, Quaternion.identity) as Transform;
 		maskBottom.parent = mapHolder;
 		maskBottom.localScale = new Vector3 (maxMapSize.x, 1, (maxMapSize.y - currentMap.mapSize.y) / 2f) * tileSize;
-		
+
+		// Creating walls
+		Transform wallWest = new GameObject ("Wall(Clone)").transform;
+		BoxCollider coll = wallWest.gameObject.AddComponent<BoxCollider> ();
+		coll.size = new Vector3 (1, 10, (currentMap.mapSize.y + .5f) * tileSize);
+		wallWest.position = Vector3.left * currentMap.mapSize.x / 2f * tileSize + Vector3.up * (coll.size.y / 2f - .1f);
+		wallWest.parent = mapHolder;
+
+		Transform wallEast = new GameObject ("Wall(Clone)").transform;
+		coll = wallEast.gameObject.AddComponent<BoxCollider> ();
+		coll.size = new Vector3 (1, 10, (currentMap.mapSize.y + .5f) * tileSize);
+		wallEast.position = Vector3.right * currentMap.mapSize.x / 2f * tileSize + Vector3.up * (coll.size.y / 2f - .1f);
+		wallEast.parent = mapHolder;
+
+		Transform wallNorth = new GameObject ("Wall(Clone)").transform;
+		coll = wallNorth.gameObject.AddComponent<BoxCollider> ();
+		coll.size = new Vector3 ((currentMap.mapSize.x + .5f) * tileSize, 10, 1);
+		wallNorth.position = Vector3.forward * currentMap.mapSize.y / 2f * tileSize + Vector3.up * (coll.size.y / 2f - .1f);
+		wallNorth.parent = mapHolder;
+
+		Transform wallSouth = new GameObject ("Wall(Clone)").transform;
+		coll = wallSouth.gameObject.AddComponent<BoxCollider> ();
+		coll.size = new Vector3 ((currentMap.mapSize.x + .5f) * tileSize, 10, 1);
+		wallSouth.position = Vector3.back * currentMap.mapSize.y / 2f * tileSize + Vector3.up * (coll.size.y / 2f - .1f);
+		wallSouth.parent = mapHolder;
+
 		navmeshFloor.localScale = new Vector3 (maxMapSize.x, maxMapSize.y) * tileSize;
 		mapFloor.localScale = new Vector3 (currentMap.mapSize.x * tileSize, currentMap.mapSize.y * tileSize, 0.05f); 
 	}

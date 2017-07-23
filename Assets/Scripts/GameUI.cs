@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -9,19 +9,27 @@ public class GameUI : NetworkBehaviour {
 	public Image fadeCanvas;
 	public GameObject gameOverUI;
 
-	public RectTransform waveBanner;
-	public Text waveTitle, waveEnemyCount;
+	public RectTransform waveBanner, healthbar;
+	public Text waveTitle, waveEnemyCount, scoreUI, gameOverScore, healthbarHp;
 
 	Spawner spawner;
+	Player player;
 
-	void Start() {
+	void Start () {
 		spawner = FindObjectOfType<Spawner> ();
 		spawner.OnNewWave += OnNewWave;
+		player = FindObjectOfType<Player>();
+		player.OnDeath += OnGameOver;
+	}
 
-		if (isServer) {
-			waveTitle.text = " - Press ENTER to start the game - ";
+	void Update() {
+		scoreUI.text = Scoreboard.score.ToString("D6");
+		float healthPercent = 0;
+		if (player != null) {
+			healthPercent = player.health / player.startingHealth;
+			healthbarHp.text = player.health + "/" + player.startingHealth;
 		}
-		//FindObjectOfType<Player> ().OnDeath += OnGameOver;
+		healthbar.localScale = new Vector3 (healthPercent, 1, 1);
 	}
 
 	void OnNewWave(int waveNumber) {
@@ -54,9 +62,13 @@ public class GameUI : NetworkBehaviour {
 			yield return null;
 		}
 	}
-	
+
 	void OnGameOver () {
-		StartCoroutine(Fade(Color.clear, Color.black, 1));
+		Cursor.visible = true;
+		StartCoroutine(Fade(Color.clear, new Color(1, 1, 1, .8f), 1));
+		gameOverScore.text = scoreUI.text;
+		scoreUI.gameObject.SetActive (false);
+		healthbar.transform.parent.gameObject.SetActive (false);
 		gameOverUI.SetActive (true);
 	}
 
@@ -74,5 +86,9 @@ public class GameUI : NetworkBehaviour {
 	// UI Input
 	public void StartNewGame() {
 		SceneManager.LoadScene ("Game");
+	}
+
+	public void ReturnToMainMenu() {
+		SceneManager.LoadScene ("Menu");
 	}
 }

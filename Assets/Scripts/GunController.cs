@@ -1,5 +1,5 @@
 using System.Collections;
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class GunController : NetworkBehaviour {
@@ -7,6 +7,7 @@ public class GunController : NetworkBehaviour {
 	public Transform weaponHold;
 	public Gun[] guns;
 	private Gun gun;
+	private int gunIndex;
 
 	void Start() {
 		EquipGun (0);
@@ -23,16 +24,17 @@ public class GunController : NetworkBehaviour {
 	}
 
 	public void EquipGun(int gunIndex) {
-		EquipGun (guns[gunIndex]);
+		this.gunIndex = gunIndex;
+		EquipGun (guns [gunIndex % guns.Length]);
 	}
 
-	public void OnTriggerHold () { 
-		CmdOnTriggerHold (); 
+	public void OnTriggerHold () {
+		CmdOnTriggerHold ();
 	}
 
-	[Command] 
-	void CmdOnTriggerHold () { 
-		RpcOnTriggerHold (); 
+	[Command]
+	void CmdOnTriggerHold () {
+		RpcOnTriggerHold ();
 	}
 
 	[ClientRpc]

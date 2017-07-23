@@ -29,6 +29,7 @@ public class Gun : MonoBehaviour {
 	[Header("Effects")]
 	public Transform shell;
 	public Transform shellEjection;
+	public AudioClip shootAudio, reloadAudio;
 	MuzzleFlash muzzleflash;
 
 	float nextShotTime;
@@ -87,12 +88,16 @@ public class Gun : MonoBehaviour {
 			transform.localPosition -= Vector3.forward * Random.Range(kickbackMinMax.x, kickbackMinMax.y);
 			recoilAngle += Random.Range(recoilAngleMinMax.x, recoilAngleMinMax.y);
 			recoilAngle = Mathf.Clamp(recoilAngle, 0, 30);
+
+			AudioManager.instance.PlaySound (shootAudio, transform.position);
 		}
 	}
 
 	public void Reload() {
-		if(!reloading && bulletsRemainingInMag != magSize)
+		if(!reloading && bulletsRemainingInMag != magSize) {
 			StartCoroutine (AnimateReload());
+			AudioManager.instance.PlaySound (reloadAudio, transform.position);
+		}
 	}
 
 	IEnumerator AnimateReload() {

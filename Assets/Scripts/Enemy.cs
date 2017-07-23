@@ -11,6 +11,8 @@ public class Enemy : LivingEntity {
 
 	public ParticleSystem deathEffect;
 
+	public static event System.Action OnDeathStatic;
+
 	NavMeshAgent pathfinder;
 	Transform target;
 	LivingEntity targetEntity;
@@ -34,9 +36,8 @@ public class Enemy : LivingEntity {
 
 	protected override void Start () {
 		base.Start ();
-		if (!isServer) {
+		if (!isServer)
 			return;
-		}
 
 		StartCoroutine (FindTarget ());
 	}
@@ -47,14 +48,21 @@ public class Enemy : LivingEntity {
 		if (hasTarget) this.damage = damage;
 		startingHealth = health;
 
-		skinMaterial = GetComponent<Renderer> ().sharedMaterial;
+		deathEffect.startColor = new Color (skinColor.r, skinColor.g, skinColor.b, 1);
+		skinMaterial = GetComponent<Renderer> ().material;
 		skinMaterial.color = skinColor;
 		originalColour = skinMaterial.color;
 	}
 
-	public override void TakeDamage(int damage) {
-		if (damage <= health)
+	public override void TakeDamage (int damage) {
+		AudioManager.instance.PlaySound ("Impact", transform.position);
+		if (damage <= health) {
+			if (OnDeathStatic != null) {
+				OnDeathStatic ();
+			}
+			AudioManager.instance.PlaySound ("Enemy Death", transform.position);
 			Destroy(Instantiate(deathEffect.gameObject, transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up)) as GameObject, deathEffect.main.startLifetimeMultiplier);
+		}
 		base.TakeDamage (damage);
 	}
 
@@ -66,18 +74,22 @@ public class Enemy : LivingEntity {
 	}
 
 	void Update () {
-		if (!isServer) {
+		if (!isServer)
 			return;
-		}
 
 		if (hasTarget) {
 			if (Time.time > nextAttackTime) {
 				float sqrDstToTarget = (target.position - transform.position).sqrMagnitude;
 				if (sqrDstToTarget < Mathf.Pow (attackDistanceThreshold + myCollisionRadius + targetCollisionRadius, 2)) {
 					nextAttackTime = Time.time + timeBetweenAttacks;
+					AudioManager.instance.PlaySound ("Enemy Attack", transform.position);
 					StartCoroutine (Attack ());
 				}
 			}
+		}
+
+		if (transform.position.y < -10) {
+			TakeDamage (health);
 		}
 	}
 
