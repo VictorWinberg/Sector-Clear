@@ -44,7 +44,7 @@ public class Spawner : NetworkBehaviour {
 			StartCoroutine("SpawnEnemy");
 		}
 
-		if (developerMode) {
+		if (developerMode || currentWaveNumber == 1) {
 			if(Input.GetKeyDown(KeyCode.Return)) {
 				StopCoroutine("SpawnEnemy");
 				foreach(Enemy enemy in FindObjectsOfType<Enemy>()) {

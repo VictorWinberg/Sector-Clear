@@ -17,6 +17,10 @@ public class GameUI : NetworkBehaviour {
 	void Start() {
 		spawner = FindObjectOfType<Spawner> ();
 		spawner.OnNewWave += OnNewWave;
+
+		if (isServer) {
+			waveTitle.text = " - Press ENTER to start the game - ";
+		}
 		//FindObjectOfType<Player> ().OnDeath += OnGameOver;
 	}
 
