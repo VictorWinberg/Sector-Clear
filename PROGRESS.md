@@ -2,7 +2,8 @@
 
 ### TODO
 ##### Player
-* When the player is neutralized the player will get timed out.
+* ~~When the player is neutralized the player will get timed out.~~
+* When the player hits another player, the player will get punished by getting timed out.
 * When the player is killed the screen will fade away and a sound effect is played.
 
 ##### Enemy
