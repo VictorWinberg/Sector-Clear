@@ -10,7 +10,7 @@ public class Player : LivingEntity {
 
 	Camera cam;
 
-	public Crosshairs crosshairs;
+	Crosshairs crosshairs;
 	PlayerController controller;
 	GunController gunController;
 
@@ -21,6 +21,8 @@ public class Player : LivingEntity {
 		controller = GetComponent<PlayerController> ();
 		gunController = GetComponent<GunController> ();
 		cam = Camera.main;
+		crosshairs = FindObjectOfType<Crosshairs> ();
+		crosshairs.activate ();
 		FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
 	}
 

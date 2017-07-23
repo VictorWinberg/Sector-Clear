@@ -8,8 +8,13 @@ public class Crosshairs : MonoBehaviour {
 	Color dotDefaultColor;
 
 	void Start() {
-		Cursor.visible = false;
 		dotDefaultColor = dot.color;
+		GetComponent<SpriteRenderer> ().enabled = false;
+	}
+
+	public void activate() {
+		Cursor.visible = false;
+		GetComponent<SpriteRenderer> ().enabled = true;
 	}
 
 	void Update() {
