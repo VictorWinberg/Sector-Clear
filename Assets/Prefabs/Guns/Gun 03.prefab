@@ -776,7 +776,8 @@ MonoBehaviour:
   fireMode: 0
   projectileSpawns:
   - {fileID: 488908}
-  projectile: {fileID: 11497808, guid: a883f094d9687486eaef1f0ea8e4a96c, type: 2}
+  projectile: {fileID: 11497808, guid: 5292ccab7ee39514aa5a59692568dff3, type: 2}
+  damage: 10
   msBetweenShots: 100
   muzzleVelocity: 35
   burstCount: 3
@@ -785,8 +786,10 @@ MonoBehaviour:
   kickbackMinMax: {x: 0.05, y: 0.2}
   recoilAngleMinMax: {x: 3, y: 5}
   recoilRecoverTime: 0.1
-  shell: {fileID: 478058, guid: 3011a0aed1601441a95e53dc7ca4e24b, type: 2}
+  shell: {fileID: 475280, guid: 5292ccab7ee39514aa5a59692568dff3, type: 2}
   shellEjection: {fileID: 487030}
+  shootAudio: {fileID: 8300000, guid: ccf0741f1c35c45ba9d74894bbf06a2c, type: 3}
+  reloadAudio: {fileID: 8300000, guid: 10cba091b2a33479299d7d085f764890, type: 3}
 --- !u!114 &11495274
 MonoBehaviour:
   m_ObjectHideFlags: 1

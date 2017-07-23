@@ -339,11 +339,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponHold: {fileID: 4060520832853762}
   guns:
-  - {fileID: 11410872, guid: be40e0d31818f4592bef4bcccb0cf1ca, type: 2}
-  - {fileID: 11475382, guid: d603f2009b9424db0b921341cb3d3784, type: 2}
-  - {fileID: 11476506, guid: 488036bd9f9b04426a34fedb9079f997, type: 2}
-  - {fileID: 11476730, guid: 2e1ce6894843d42429ac1523bf278404, type: 2}
-  - {fileID: 11456016, guid: f7293d2c7785040f1934c99e7fa89fe1, type: 2}
+  - {fileID: 11410872, guid: f13d9699ac2566f4c9253f643a847dea, type: 2}
+  - {fileID: 11475382, guid: 51d912a4c8dbf5f489d96387aafe46f2, type: 2}
+  - {fileID: 11476506, guid: 1465dded2d7d08f449d079db9ca37734, type: 2}
+  - {fileID: 11476730, guid: 2f71ed91f5125094bac9374f9e59357b, type: 2}
+  - {fileID: 11456016, guid: 62c44dcc9a6e0674e816b0baed54cbf9, type: 2}
 --- !u!114 &114173473012082964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -367,11 +367,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
+  health: 0
   healthbar: {fileID: 224906989391950224}
-  destroyOnDeath: 0
   moveSpeed: 5
-  crosshairs: {fileID: 114577296887856098, guid: 197e80fc470bca64688bd7fbe9250a1c,
-    type: 2}
   aimbot: 0
 --- !u!114 &114242281233827842
 MonoBehaviour:
@@ -403,22 +401,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 159
-    i1: 200
-    i2: 233
-    i3: 138
-    i4: 102
-    i5: 143
-    i6: 159
-    i7: 116
-    i8: 88
-    i9: 181
-    i10: 67
-    i11: 242
-    i12: 153
-    i13: 217
-    i14: 147
-    i15: 96
+    i0: 175
+    i1: 131
+    i2: 46
+    i3: 214
+    i4: 28
+    i5: 12
+    i6: 10
+    i7: 164
+    i8: 90
+    i9: 194
+    i10: 109
+    i11: 22
+    i12: 147
+    i13: 174
+    i14: 148
+    i15: 168
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
 --- !u!114 &114348583660100966

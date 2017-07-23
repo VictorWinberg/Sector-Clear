@@ -87,8 +87,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
+  health: 0
   healthbar: {fileID: 224539785872489698}
-  destroyOnDeath: 1
   deathEffect: {fileID: 19878482, guid: 9ede256124f5842f1afbff9d9af29df7, type: 2}
 --- !u!136 &13600044
 CapsuleCollider:
