@@ -12,6 +12,8 @@ The goal of game is to is to climb the leaderboard and achieve the highest score
 ### Feature list
 This game will feature the features listed below. These features may have some changes, deletions, or additionals onto at any time during the development. These changes will be documented at the game release.
 
+Progess in shown in [PROGRESS](PROGRESS.md)
+
 ##### Player
 * The player can move in any direction with WSAD.
 * The player can aim with the mouse.
