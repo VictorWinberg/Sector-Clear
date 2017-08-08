@@ -71,7 +71,7 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 	}
 
 	[Command]
-	protected void CmdRespawn() {
+	public void CmdRespawn() {
 		RpcRespawn ();
 	}
 

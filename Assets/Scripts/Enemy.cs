@@ -56,13 +56,6 @@ public class Enemy : LivingEntity {
 
 	public override void TakeDamage (int damage) {
 		AudioManager.instance.PlaySound ("Impact", transform.position);
-		if (damage <= health) {
-			if (OnDeathStatic != null) {
-				OnDeathStatic ();
-			}
-			AudioManager.instance.PlaySound ("Enemy Death", transform.position);
-			Destroy(Instantiate(deathEffect.gameObject, transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up)) as GameObject, deathEffect.main.startLifetimeMultiplier);
-		}
 		base.TakeDamage (damage);
 	}
 
@@ -182,9 +175,17 @@ public class Enemy : LivingEntity {
 	protected override void Die() {
 		base.Die ();
 		dead = true;
+
+		if (OnDeathStatic != null) {
+			OnDeathStatic ();
+		}
 		if (targetEntity != null) {
 			targetEntity.OnDeath -= OnTargetDeath;
 		}
+
+		AudioManager.instance.PlaySound ("Enemy Death", transform.position);
+		Destroy(Instantiate(deathEffect.gameObject, transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up)) as GameObject, deathEffect.main.startLifetimeMultiplier);
+
 		Destroy (gameObject);
 	}
 }

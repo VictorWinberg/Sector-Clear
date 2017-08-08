@@ -32,6 +32,7 @@ public class Menu : MonoBehaviour {
 	}
 
 	void Start() {
+		Cursor.visible = true;
 		resolutionIndex = PlayerPrefs.GetInt ("Resolution index");
 		bool isFullscreen = (PlayerPrefs.GetInt ("Fullscreen") == 1) ? true : false;
 

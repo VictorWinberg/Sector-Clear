@@ -75,11 +75,6 @@ public class GameUI : MonoBehaviour {
 		}
 	}
 
-	// UI Input
-	public void StartNewGame() {
-		SceneManager.LoadScene ("Game");
-	}
-
 	public void ReturnToMainMenu() {
 		SceneManager.LoadScene ("Menu");
 	}
