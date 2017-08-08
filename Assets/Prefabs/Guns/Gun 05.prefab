@@ -806,7 +806,7 @@ MonoBehaviour:
   kickbackMinMax: {x: 0.05, y: 0.2}
   recoilAngleMinMax: {x: 3, y: 5}
   recoilRecoverTime: 0.1
-  shell: {fileID: 475280, guid: 5292ccab7ee39514aa5a59692568dff3, type: 2}
+  shell: {fileID: 478058, guid: ed77b60c3bdb3684989654d1494f6d70, type: 2}
   shellEjection: {fileID: 475286}
   shootAudio: {fileID: 8300000, guid: 6bb641b53cd914f87a6590f2d49730bd, type: 3}
   reloadAudio: {fileID: 8300000, guid: a6a3d9940dd9d47a7ac93ed8043528da, type: 3}

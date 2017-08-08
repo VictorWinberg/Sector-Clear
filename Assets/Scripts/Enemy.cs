@@ -158,6 +158,8 @@ public class Enemy : LivingEntity {
 		float refreshRate = 1.0f;
 
 		while (!hasTarget) {
+			yield return new WaitForSeconds(refreshRate);
+
 			GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 			if (players != null && players.Length > 0) {
 				currentState = State.Chasing;
@@ -174,8 +176,6 @@ public class Enemy : LivingEntity {
 
 				StartCoroutine (UpdatePath ());
 			}
-
-			yield return new WaitForSeconds(refreshRate);
 		}
 	}
 

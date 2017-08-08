@@ -2,7 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 
-public class Scoreboard : NetworkBehaviour {
+public class Scoreboard : MonoBehaviour {
 
 	public static int score { get; private set; }
 	float lastKillTime;
@@ -11,7 +11,6 @@ public class Scoreboard : NetworkBehaviour {
 
 	void Start () {
 		Enemy.OnDeathStatic += OnEnemyKilled;
-		FindObjectOfType<Player> ().OnDeath += OnPlayerDeath;
 	}
 
 	void OnEnemyKilled() {
@@ -26,7 +25,7 @@ public class Scoreboard : NetworkBehaviour {
 		score += 5 + 2 * killStreak;
 	}
 
-	void OnPlayerDeath() {
+	public void OnPlayerDeath() {
 		Enemy.OnDeathStatic -= OnEnemyKilled;
 	}
 }

@@ -1,10 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class GameUI : NetworkBehaviour {
+public class GameUI : MonoBehaviour {
 
 	public Image fadeCanvas;
 	public GameObject gameOverUI;

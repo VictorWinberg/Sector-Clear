@@ -31,6 +31,10 @@ public class Player : LivingEntity {
 			spawner.OnNewWave += gui.OnNewWave;
 			gui.player = this;
 			this.OnDeath += gui.OnGameOver;
+
+			go = Instantiate (Resources.Load ("Scoreboard"), Vector3.zero, Quaternion.identity) as GameObject;
+			Scoreboard score = go.GetComponent<Scoreboard> ();
+			this.OnDeath += score.OnPlayerDeath;
 		}
 	}
 
@@ -105,7 +109,7 @@ public class Player : LivingEntity {
 		health = startingHealth;
 
 		if (isLocalPlayer) {
-			CmdRespawn ();
+			CmdDie ();
 		}
 	}
 }
