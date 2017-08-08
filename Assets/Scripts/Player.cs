@@ -22,7 +22,16 @@ public class Player : LivingEntity {
 		crosshairs = FindObjectOfType<Crosshairs> ();
 		crosshairs.activate ();
 		viewCamera = Camera.main;
-		FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
+		Spawner spawner = FindObjectOfType<Spawner> ();
+
+		if (isLocalPlayer) {
+			GameObject go = Instantiate (Resources.Load ("GUI"), Vector3.zero, Quaternion.identity) as GameObject;
+			GameUI gui = go.GetComponent<GameUI> ();
+			gui.spawner = spawner;
+			spawner.OnNewWave += gui.OnNewWave;
+			gui.player = this;
+			this.OnDeath += gui.OnGameOver;
+		}
 	}
 
 	void OnNewWave(int waveNumber) {

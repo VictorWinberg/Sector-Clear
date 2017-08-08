@@ -12,27 +12,20 @@ public class GameUI : NetworkBehaviour {
 	public RectTransform waveBanner, healthbar;
 	public Text waveTitle, waveEnemyCount, scoreUI, gameOverScore, healthbarHp;
 
-	Spawner spawner;
-	Player player;
-
-	void Start () {
-		spawner = FindObjectOfType<Spawner> ();
-		spawner.OnNewWave += OnNewWave;
-		player = FindObjectOfType<Player>();
-		player.OnDeath += OnGameOver;
-	}
+	public Spawner spawner;
+	public Player player;
 
 	void Update() {
 		scoreUI.text = Scoreboard.score.ToString("D6");
 		float healthPercent = 0;
 		if (player != null) {
-			healthPercent = player.health / player.startingHealth;
+			healthPercent = player.health / (float)(player.startingHealth);
 			healthbarHp.text = player.health + "/" + player.startingHealth;
 		}
 		healthbar.localScale = new Vector3 (healthPercent, 1, 1);
 	}
 
-	void OnNewWave(int waveNumber) {
+	public void OnNewWave(int waveNumber) {
 		waveTitle.text = "- Wave " + HumanFriendlyInteger.IntegerToWritten (waveNumber) + " -";
 		string enemyCount = (spawner.waves [waveNumber].infinite) ? "Infinite" : spawner.waves [waveNumber].enemyCount + "";
 		waveEnemyCount.text = "Enemies: " + enemyCount;
@@ -63,7 +56,7 @@ public class GameUI : NetworkBehaviour {
 		}
 	}
 
-	void OnGameOver () {
+	public void OnGameOver () {
 		Cursor.visible = true;
 		StartCoroutine(Fade(Color.clear, new Color(1, 1, 1, .8f), 1));
 		gameOverScore.text = scoreUI.text;
