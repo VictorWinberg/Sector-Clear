@@ -56,18 +56,7 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 		if (OnDeath != null) {
 			OnDeath();
 		}
-	}
-
-	[Command]
-	protected void CmdDie() {
-		RpcDie ();
-	}
-
-	[ClientRpc]
-	void RpcDie() {
-		if (isLocalPlayer) {
-			gameObject.SetActive (false);
-		}
+		gameObject.SetActive (false);
 	}
 
 	[Command]
@@ -77,16 +66,14 @@ public class LivingEntity : NetworkBehaviour, IDamageable {
 
 	[ClientRpc]
 	void RpcRespawn() {
-		if (isLocalPlayer) {
-			gameObject.SetActive (true);
+		gameObject.SetActive (true);
 
-			Vector3 spawnPoint = Vector3.zero;
+		Vector3 spawnPoint = Vector3.zero;
 
-			if (spawnPoints != null && spawnPoints.Length > 0) {
-				spawnPoint = spawnPoints [Random.Range (0, spawnPoints.Length)].transform.position;
-			}
-
-			transform.position = spawnPoint;
+		if (spawnPoints != null && spawnPoints.Length > 0) {
+			spawnPoint = spawnPoints [Random.Range (0, spawnPoints.Length)].transform.position;
 		}
+
+		transform.position = spawnPoint;
 	}
 }

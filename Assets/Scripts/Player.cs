@@ -13,6 +13,7 @@ public class Player : LivingEntity {
 	GunController gunController;
 
 	public bool aimbot = false;
+	private bool lobby = true;
 
 	protected override void Start () {
 		base.Start ();
@@ -23,6 +24,7 @@ public class Player : LivingEntity {
 		crosshairs.activate ();
 		viewCamera = Camera.main;
 		Spawner spawner = FindObjectOfType<Spawner> ();
+		spawner.OnNewWave += OnNewWave;
 
 		if (isLocalPlayer) {
 			GameObject go = Instantiate (Resources.Load ("GUI"), Vector3.zero, Quaternion.identity) as GameObject;
@@ -35,10 +37,14 @@ public class Player : LivingEntity {
 			go = Instantiate (Resources.Load ("Scoreboard"), Vector3.zero, Quaternion.identity) as GameObject;
 			Scoreboard score = go.GetComponent<Scoreboard> ();
 			this.OnDeath += score.OnPlayerDeath;
+
+			Camera.main.GetComponent<CameraFollow> ().SetTarget (this.gameObject);
 		}
 	}
 
 	void OnNewWave(int waveNumber) {
+		lobby = waveNumber == 0;
+		
 		if (waveNumber != 1)
 			startingHealth = (int)(startingHealth * 1.2f);
 
@@ -108,8 +114,8 @@ public class Player : LivingEntity {
 		base.Die ();
 		health = startingHealth;
 
-		if (isLocalPlayer) {
-			CmdDie ();
+		if (lobby) {
+			CmdRespawn ();
 		}
 	}
 }

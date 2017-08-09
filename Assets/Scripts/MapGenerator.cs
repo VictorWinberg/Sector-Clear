@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class MapGenerator : NetworkBehaviour {
+	public bool random;
+
 	public Map[] maps;
 	public int mapIndex;
 
