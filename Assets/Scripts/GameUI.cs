@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class GameUI : MonoBehaviour {
@@ -75,7 +76,10 @@ public class GameUI : MonoBehaviour {
 		}
 	}
 
-	public void ReturnToMainMenu() {
-		SceneManager.LoadScene ("Menu");
+	public void Disconnect() {
+		if (player.isServer)
+			NetworkManager.singleton.StopHost();
+		if (player.isClient)
+			NetworkManager.singleton.StopClient();
 	}
 }
