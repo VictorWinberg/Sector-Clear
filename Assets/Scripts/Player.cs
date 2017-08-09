@@ -37,6 +37,8 @@ public class Player : LivingEntity {
 			go = Instantiate (Resources.Load ("Scoreboard"), Vector3.zero, Quaternion.identity) as GameObject;
 			Scoreboard score = go.GetComponent<Scoreboard> ();
 			this.OnDeath += score.OnPlayerDeath;
+
+			Camera.main.GetComponent<CameraFollow> ().SetTarget (this.gameObject);
 		}
 	}
 

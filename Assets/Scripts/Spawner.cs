@@ -10,8 +10,6 @@ public class Spawner : NetworkBehaviour {
 	public Wave[] waves;
 	public Enemy enemy;
 
-	LivingEntity player;
-
 	Wave currentWave;
 	int currentWaveNumber;
 
@@ -95,8 +93,10 @@ public class Spawner : NetworkBehaviour {
 	}
 
 	void ResetPlayerPosition() {
-		if(player != null)
-			player.transform.position = map.getTileFromPosition(Vector3.zero).position + Vector3.up * 3;
+		Player[] players = FindObjectsOfType<Player> ();
+
+		foreach(Player player in players)
+			player.transform.position = map.getRandomOpenTile().position + Vector3.up * 3;		
 	}
 
 	void NextWave() {

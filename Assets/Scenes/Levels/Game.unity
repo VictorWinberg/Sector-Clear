@@ -581,7 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0ff92798ee348bb93c403784548248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developerMode: 0
+  developerMode: 1
   random: 0
   waves:
   - infinite: 0
@@ -3005,6 +3005,7 @@ GameObject:
   - component: {fileID: 695717939}
   - component: {fileID: 695717940}
   - component: {fileID: 695717941}
+  - component: {fileID: 695717947}
   m_Layer: 0
   m_Name: GameCamera
   m_TagString: MainCamera
@@ -3320,6 +3321,18 @@ MonoBehaviour:
   shaderFXAAPreset3: {fileID: 4800000, guid: c182fa94a5a0a4c02870641efcd38cd5, type: 3}
   shaderFXAAII: {fileID: 4800000, guid: cd5b323dcc592457790ff18b528f5e67, type: 3}
   shaderFXAAIII: {fileID: 4800000, guid: c547503fff0e8482ea5793727057041c, type: 3}
+--- !u!114 &695717947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 695717938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce35006bcfb202499c238589d797a8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
 --- !u!1 &717567765
 GameObject:
   m_ObjectHideFlags: 0
