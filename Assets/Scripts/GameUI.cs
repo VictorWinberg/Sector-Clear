@@ -15,6 +15,8 @@ public class GameUI : MonoBehaviour {
 	public Spawner spawner;
 	public Player player;
 
+	private bool lobby = true;
+
 	void Update() {
 		scoreUI.text = Scoreboard.score.ToString("D6");
 		float healthPercent = 0;
@@ -26,6 +28,7 @@ public class GameUI : MonoBehaviour {
 	}
 
 	public void OnNewWave(int waveNumber) {
+		lobby = waveNumber == 0;
 		waveTitle.text = "- Wave " + HumanFriendlyInteger.IntegerToWritten (waveNumber) + " -";
 		string enemyCount = (spawner.waves [waveNumber].infinite) ? "Infinite" : spawner.waves [waveNumber].enemyCount + "";
 		waveEnemyCount.text = "Enemies: " + enemyCount;
@@ -57,6 +60,9 @@ public class GameUI : MonoBehaviour {
 	}
 
 	public void OnGameOver () {
+		if (lobby)
+			return;
+
 		Cursor.visible = true;
 		StartCoroutine(Fade(Color.clear, new Color(1, 1, 1, .8f), 1));
 		gameOverScore.text = scoreUI.text;

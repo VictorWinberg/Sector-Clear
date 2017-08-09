@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 public class Spawner : NetworkBehaviour {
 
 	public bool developerMode;
+	public bool random;
 
 	public Wave[] waves;
 	public Enemy enemy;
