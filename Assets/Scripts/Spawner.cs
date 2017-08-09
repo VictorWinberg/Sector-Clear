@@ -72,6 +72,9 @@ public class Spawner : NetworkBehaviour {
 			yield return null;
 		}
 
+		if(spawnTile == null)
+			spawnTile = map.getRandomOpenTile ();
+
 		tileMaterial.color = initialColor;
 
 		if (isServer) {
