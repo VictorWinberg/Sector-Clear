@@ -4,7 +4,7 @@
 You play as a soldier in an elite strike unit. The earth is at war unlike any war we've seen before. Sector clear is a program where soldiers compete against each other to improve and develop new combat skills. Sectors contains enemies spawned at random. You fight a variety of enemies and other soldiers with your weapons at your disposal.
 
 ### Prototype
-![Prototype image](https://writelatex.s3.amazonaws.com/tcyfphxkhxwf/uploads/603/13737516/1.png "Prototype image")
+![Prototype image](prototype.png "Prototype image")
 
 ### Game Objectives
 The goal of game is to is to climb the leaderboard and achieve the highest score. Score is awarded for each enemy killed, player neutralized and sector cleared. Your task is to make it through as many sectors as possible. This multiplayer game is over either when the enemies kills you or if you get neutralized by another player.
